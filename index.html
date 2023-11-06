@@ -1,88 +1,52 @@
 <!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Todos</title>
-        <link rel="stylesheet" href="css/common.css" />
-    </head>
-    <body>
-        <div class="app">
-            <h1>todos</h1>
-            <div class="todo-container">
-                <div class="todo-section">
-                    <div class="todo-head flex">
-                        <div class="todo-head__all-select-btn"></div>
-                        <input
-                            class="todo-head__input"
-                            autofocus
-                            placeholder="What needs to be done?"
-                        />
-                    </div>
-                    <div class="todo-body">
-                        <div class="todo-body__list"></div>
-                        <div class="todo-body__control flex">
-                            <div class="todo-control__count flex">
-                                <span>0</span> items left
-                            </div>
-                            <div class="todo-control__btns flex">
-                                <button
-                                    class="todo-control__btn"
-                                    data-type="all"
-                                >
-                                    All
-                                </button>
-                                <button
-                                    class="todo-control__btn"
-                                    data-type="active"
-                                >
-                                    Active
-                                </button>
-                                <button
-                                    class="todo-control__btn"
-                                    data-type="complete"
-                                >
-                                    Complete
-                                </button>
-                            </div>
-                            <button class="todo-control__clear-complete-btn">
-                                Clear completed
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="todo-footer">
-                    <p>Copyright 2022. Minseok0917 all rights reserved.</p>
-                </div>
+<html lang="en" data-framework="es6">
+  <head>
+    <meta charset="utf-8" />
+    <title>Vanilla ES6 • TodoMVC</title>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/todoapp.css" />
+  </head>
+  <body>
+    <section class="todoapp">
+      <header class="header">
+        <h1>todos</h1>
+        <input
+          class="new-todo"
+          placeholder="What needs to be done?"
+          autofocus
+        />
+      </header>
+      <section class="main">
+        <input id="toggle-all" class="toggle-all" type="checkbox" />
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list">
+          <li>
+            <!-- class="editing" -->
+            <div class="view">
+              <input class="toggle" type="checkbox" />
+              <label>1</label>
+              <button class="destroy"></button>
             </div>
-        </div>
-
-        <!-- <div id="wrap">
-            <h1>todos</h1>
-            <div id="input">
-                <div id="all_sel"></div>
-                <input
-                    type="text"
-                    placeholder="What needs to be done?"
-                    id="main"
-                    size="45"
-                />
-            </div>
-            <ul id="list">
-                <li id="controll">
-                    <span id="item"></span>
-                    <div id="flex">
-                        <span id="all" class="sp_ac">All</span>
-                        <span id="act">Active</span>
-                        <span id="com">Completed</span>
-                    </div>
-                    <span id="cle">Clear completed</span>
-                </li>
-            </ul>
-        </div>
-        <p class="set_text">Double-click to edit a todo</p> -->
-    </body>
-    <script src="js/helper.js"></script>
-    <script src="js/common.js"></script>
+            <!-- <input class="edit" type="text" /> -->
+          </li>
+        </ul>
+        <footer class="footer">
+          <span class="todo-count"></span>
+          <ul class="filters">
+            <li>
+              <a href="#/" class="selected">All</a>
+            </li>
+            <li>
+              <a href="#/active">Active</a>
+            </li>
+            <li>
+              <a href="#/completed">Completed</a>
+            </li>
+          </ul>
+          <button class="clear-completed">Clear completed</button>
+        </footer>
+      </section>
+    </section>
+    <script src="./js/script.js"></script>
+  </body>
 </html>
