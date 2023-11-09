@@ -57,9 +57,21 @@ class TodoApp {
   changeTodo({ index, ...todo }) {
     return this.#initTodos(this.#todoList.with(index, TodoItem.init({ ...todo })));
   }
+  changeAllCompletedStatus({ completed }) {
+    return this.#initTodos(this.#todoList.map((todo) => ({ ...todo, completed })));
+  }
 
   get existTodos() {
     return this.#todoList.length > 0;
+  }
+  get activeTodosCount() {
+    return this.#todoList.filter((todo) => !todo.completed).length;
+  }
+  get existCompletedTodos() {
+    return this.#todoList.some((todo) => todo.completed);
+  }
+  get existAllCompletedTodos() {
+    return this.#todoList.every((todo) => todo.completed);
   }
 }
 class TodoItem {
@@ -76,13 +88,19 @@ const todoApp = new TodoApp("sdhs-todos");
 const $newTodo = $(".new-todo");
 const $main = $(".main");
 const $todoList = $(".todo-list");
-const $filters = $$(".filters li");
+const $toggleAll = $(".toggle-all");
+const $clearCompleted = $(".clear-completed");
+const $todoCount = $(".todo-count");
+const $filters = $$(".filters li a");
 
 $newTodo.addEventListener("keydown", function (event) {
   if (!isKeyEnter(event)) return;
   if (isTextEmpty(this.value)) return alert("텍스트를 입력해주세요");
   todoApp.addTodo({ name: this.value });
   this.value = "";
+});
+$toggleAll.addEventListener("change", function () {
+  todoApp.changeAllCompletedStatus({ completed: this.checked });
 });
 window.addEventListener("hashchange", rendering);
 
@@ -116,7 +134,7 @@ class $TodoItem {
     this.todo = todo;
     this.index = index;
     this.$todoItem = createHTML(`
-      <li class="${todo.completed ? "completed" : todo.editing ? "editing" : ""}">
+      <li class="${todo.editing ? "editing" : todo.completed ? "completed" : ""}">
         <div class="view">
           <input class="toggle" type="checkbox" ${todo.completed ? "checked" : ""} />
           <label></label>
@@ -130,7 +148,14 @@ class $TodoItem {
 
 function rendering() {
   elementDisplay($main, todoApp.existTodos);
+  elementDisplay($clearCompleted, todoApp.existCompletedTodos);
+
+  $filters.forEach(($filter) => $filter.classList.remove("selected"));
+  $filters.find(($filter) => $filter.href === location.href).className = "selected";
+
   $todoList.innerHTML = ""; // 초기화
+  $toggleAll.checked = todoApp.existAllCompletedTodos;
+  $todoCount.innerHTML = `<strong>${todoApp.activeTodosCount}</strong> item${todoApp.activeTodosCount === 1 ? "" : "s"} left`;
 
   const $todoItems = todoApp.todos.map($TodoItem.create).map($TodoItem.setup);
   $todoList.append(...$todoItems);
